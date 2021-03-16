@@ -1,0 +1,61 @@
+.text-center{
+	text-align: center;
+
+}
+.media-btn{
+	width: 88%;
+}
+.about-box{
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.media-content{
+	min-width: 400px;
+    max-width: 400px;
+    min-height: 360px;
+    max-height: 360px;
+    text-align: center;
+    margin: 0;
+
+}
+.media-container{
+	max-height: 470px;
+	overflow: hidden;
+    display: flex;
+/*     align-items: center;
+ */}
+.media-category{
+    margin-top: 2em;
+    padding-left: 3em;
+    padding-right: 3em;
+}
+.media-arrow-left{
+    font-size: 5em;
+    position: absolute;
+    left: 1%;
+    display: flex;
+    align-items: center;
+    height: 360px;
+}
+.media-arrow-right{
+    font-size: 5em;
+    position: absolute;
+    right:  1%;
+    display: flex;
+    align-items: center;
+    height: 360px;
+
+}
+.media-arrow-left i,.media-arrow-right i{
+    cursor: pointer;
+}
+.react-multi-carousel-item {
+    width: auto!important;
+}
+@media (max-width: 600px) {
+	.media-content{
+        min-width: 100%
+    }
+  }
