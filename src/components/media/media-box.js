@@ -7,10 +7,12 @@ class MediaBox extends React.Component {
     super(props)
     _this = this
     this.state = {
-      url: 'https://www.youtube.com/embed/RlNVyatwd5M',
+      url: '',
     }
   }
   render() {
+    const { url, info } = _this.state
+    const { onShowInfo, onWatchVideo } = _this.props
     return (
       <div className="grid-wrapper media-content">
         <div className="col-12">
@@ -18,7 +20,7 @@ class MediaBox extends React.Component {
             <iframe
               width="560"
               height="315"
-              src={_this.props.url}
+              src={url}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
@@ -27,20 +29,18 @@ class MediaBox extends React.Component {
             />
           </div>
         </div>
-        <div className="col-6">
+        <div className="col-12 media-btn-container">
           <button
-            onClick={_this.showInfo}
+            onClick={() => onShowInfo(info)}
             type="button"
-            className="button special media-btn"
+            className="button  media-btn"
           >
             Info
           </button>
-        </div>
-        <div className="col-6">
           <button
-            onClick={_this.watch}
+            onClick={() => onWatchVideo(url)}
             type="button"
-            className="button special media-btn"
+            className="button  media-btn"
           >
             Watch
           </button>
@@ -48,15 +48,22 @@ class MediaBox extends React.Component {
       </div>
     )
   }
-  showInfo() {
-    // show info
+  static getDerivedStateFromProps(props, state) {
+    if (!state.url) {
+      return props
+    } else {
+      return null
+    }
   }
-  watch() {
-    // watch
+  shouldComponentUpdate() {
+    return false
   }
 }
 MediaBox.propTypes = {
   url: PropTypes.string.isRequired,
+  info: PropTypes.string.isRequired,
+  onShowInfo: PropTypes.func,
+  onWatchVideo: PropTypes.func,
 }
 
 export default MediaBox

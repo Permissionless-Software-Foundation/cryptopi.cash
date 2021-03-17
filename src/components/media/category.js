@@ -1,91 +1,118 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import MediaBox from './media-box'
-
+import About from './about'
 let _this
 class Category extends React.Component {
   constructor(props) {
     super(props)
     _this = this
     this.state = {
-      scrollx: 0,
+      activeItem: {},
     }
-    _this.scrollValue = window.innerWidth > 600 ? 300 : window.innerWidth
+    _this.scrollValue = window.innerWidth > 700 ? 2 : 1
   }
   render() {
-    const { id, title, about, media } = _this.props
+    const { id, title, about, media, hidenLeft, hidenRight } = _this.state
+    const { onShowInfo, onWatchVideo } = _this.props
     return (
       <section key={id} className="main style1 media-category">
         <h1>{title}</h1>
         <div id={id} className="media-container">
-          <div className="media-arrow-left">
-            <i
-              aria-hidden="true"
-              class="fas fa-caret-left "
-              onClick={() => _this.toLeft(id)}
-            ></i>
+          {!hidenLeft && (
+            <div className="media-arrow-left">
+              <i
+                aria-hidden="true"
+                className="fas fa-caret-left "
+                onClick={() => _this.scrollTo(id, 'left')}
+              ></i>
+            </div>
+          )}
+          <div
+            id={`${id}-mediaContainer`}
+            className="media-container"
+            key={`${id}-mediaContainer`}
+          >
+            {about && (
+              <About
+                id={id}
+                key={`about-${id}`}
+                about={about}
+                onShowInfo={onShowInfo}
+              />
+            )}
+            {media.map((val, i) => {
+              return (
+                <MediaBox
+                  key={val.url + i}
+                  onShowInfo={onShowInfo}
+                  onWatchVideo={onWatchVideo}
+                  {...val}
+                />
+              )
+            })}
           </div>
 
-          <div className="box about-box media-content">
-            <div className="text-center">{about}</div>
-          </div>
-          {media.map((val, i) => {
-            return <MediaBox key={val.url + i} url={val.url} />
-          })}
-          <div className="media-arrow-right">
-            <i
-              aria-hidden="true"
-              class="fas fa-caret-right "
-              onClick={() => _this.toRight(id)}
-            ></i>
-          </div>
+          {!hidenRight && (
+            <div className="media-arrow-right">
+              <i
+                aria-hidden="true"
+                className="fas fa-caret-right "
+                onClick={() => _this.scrollTo(id, 'right')}
+              ></i>
+            </div>
+          )}
         </div>
       </section>
     )
   }
-
+  static getDerivedStateFromProps(props, state) {
+    if (!state.id) {
+      return props
+    } else {
+      return null
+    }
+  }
   shouldComponentUpdate() {
     return false
   }
 
-  // slider
-  toRight(id) {
+  // slider effect
+  scrollTo(id, direction) {
     try {
-      const element = document.getElementById(id)
-      if (element.scrollLeft !== _this.state.scrollx) return
-      const value = _this.state.scrollx + _this.scrollValue
+      const { activeItem } = _this.state
+      console.log(`activeItem`, activeItem)
+      let _index
+      try {
+        _index = activeItem[id] || 0
+      } catch (error) {
+        _index = 0
+      }
 
-      element.scroll({
-        top: 0,
-        left: value,
+      let newIndex
+      if (direction === 'left') {
+        newIndex = _index - _this.scrollValue
+      } else {
+        newIndex = _index + _this.scrollValue
+      }
+
+      const element = document.getElementById(`${id}-mediaContainer`)
+
+      const childs = element.childNodes
+      if (!childs[newIndex]) return
+      childs[newIndex].scrollIntoView({
+        block: 'nearest',
+        inline: 'center',
         behavior: 'smooth',
       })
 
+      activeItem[id] = newIndex
       _this.setState({
-        scrollx: value,
+        activeItem,
       })
-    } catch (error) {
-      console.warn(error)
-    }
-  }
-
-  // slider
-  toLeft(id) {
-    try {
-      const element = document.getElementById(id)
-
-      if (element.scrollLeft <= 0) return
-      const value = _this.state.scrollx - _this.scrollValue
-
-      element.scroll({
-        top: 0,
-        left: value,
-        behavior: 'smooth',
-      })
-
-      _this.setState({
-        scrollx: value,
-      })
+      setTimeout(() => {
+        console.log(_this.state)
+      }, 400)
     } catch (error) {
       console.warn(error)
     }
@@ -96,5 +123,7 @@ Category.propTypes = {
   title: PropTypes.string,
   about: PropTypes.string,
   media: PropTypes.array,
+  onShowInfo: PropTypes.func,
+  onWatchVideo: PropTypes.func,
 }
 export default Category

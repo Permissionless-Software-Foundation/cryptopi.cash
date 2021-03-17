@@ -3,7 +3,7 @@ import React from 'react'
 class Intro extends React.Component {
   render() {
     return (
-      <section id="one" className="main style1">
+      <section id="one" className="main style1 intro-container">
         <div className="grid-wrapper">
           <div className="col-2"></div>
           <div className="col-4">
@@ -30,14 +30,14 @@ class Intro extends React.Component {
               The open source 'Cash Stack' allows phone and web apps to interact
               with the Bitcoin Cash blockchain.
             </h4>
-            <ul className="actions uniform">
+            <ul className="actions uniform  media-btn-container">
               <li>
-                <a href="/login" className="button special">
+                <a href="/" className="button special">
                   Sign Up
                 </a>
               </li>
               <li>
-                <a href="/pricing" className="button">
+                <a href="/" className="button">
                   Pricing
                 </a>
               </li>
