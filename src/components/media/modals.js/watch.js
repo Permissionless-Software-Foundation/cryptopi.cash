@@ -22,6 +22,7 @@ class WatchModal extends React.Component {
   }
   render() {
     const { url, show, onHide } = _this.props
+    const embedUrl = `https://www.youtube.com/embed/${url}`
     return (
       <Modal
         isOpen={show}
@@ -33,7 +34,7 @@ class WatchModal extends React.Component {
           <iframe
             width="560"
             height="315"
-            src={url}
+            src={embedUrl}
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen

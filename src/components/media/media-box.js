@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+// for thumbnails , 'default.jpg', '0.jpg',  '1.jpg' ... 3.jpg'
+let imgSize = 'sddefault.jpg' //  'maxresdefault.jpg',
 let _this
 class MediaBox extends React.Component {
   constructor(props) {
@@ -13,38 +15,30 @@ class MediaBox extends React.Component {
   render() {
     const { url, info } = _this.state
     const { onShowInfo, onWatchVideo } = _this.props
+    const thumbUrl = `https://img.youtube.com/vi/${url}/${imgSize}`
     return (
-      <div className="grid-wrapper media-content">
-        <div className="col-12">
-          <div className="youtube-responsive-container">
-            <iframe
-              width="560"
-              height="315"
-              src={url}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              title="kickoff"
-              style={{ padding: '10px' }}
-            />
+      <div className="media-content">
+        <section className="grid-wrapper">
+          <div className="col-12">
+            <img src={thumbUrl} alt={url} />
+            <div className="col-12 media-btn-container">
+              <button
+                onClick={() => onShowInfo(info)}
+                type="button"
+                className="button  media-btn"
+              >
+                Info
+              </button>
+              <button
+                onClick={() => onWatchVideo(url)}
+                type="button"
+                className="button  media-btn"
+              >
+                Watch
+              </button>
+            </div>
           </div>
-        </div>
-        <div className="col-12 media-btn-container">
-          <button
-            onClick={() => onShowInfo(info)}
-            type="button"
-            className="button  media-btn"
-          >
-            Info
-          </button>
-          <button
-            onClick={() => onWatchVideo(url)}
-            type="button"
-            className="button  media-btn"
-          >
-            Watch
-          </button>
-        </div>
+        </section>
       </div>
     )
   }

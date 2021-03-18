@@ -21,7 +21,7 @@ class About extends React.Component {
           {seeMore && (
             <div className="see-more-container">
               <button className="button" onClick={() => onShowInfo(about)}>
-                Read more...
+                Read more
               </button>
             </div>
           )}

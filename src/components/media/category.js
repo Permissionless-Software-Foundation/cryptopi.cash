@@ -10,7 +10,10 @@ class Category extends React.Component {
     this.state = {
       activeItem: {},
     }
-    _this.scrollValue = window.innerWidth > 700 ? 2 : 1
+    _this.scrollValue =
+      window.innerWidth < 700 ? 1 : window.innerWidth < 1200 ? 2 : 3
+
+    console.log('window.innerWidth', window.innerWidth, _this.scrollValue)
   }
   render() {
     const { id, title, about, media, hidenLeft, hidenRight } = _this.state
@@ -110,9 +113,6 @@ class Category extends React.Component {
       _this.setState({
         activeItem,
       })
-      setTimeout(() => {
-        console.log(_this.state)
-      }, 400)
     } catch (error) {
       console.warn(error)
     }
